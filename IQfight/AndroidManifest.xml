@@ -16,6 +16,11 @@
         <activity
             android:name="com.example.iqfight.MainActivity"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.example.iqfight.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,9 +28,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.iqfight.LoginActivity"
-            android:label="@string/title_activity_login"
+            android:name="com.example.iqfight.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName="com.example.iqfight.LoginActivity"
             android:windowSoftInputMode="adjustResize|stateVisible" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.iqfight.LoginActivity" />
         </activity>
     </application>
 

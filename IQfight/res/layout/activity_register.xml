@@ -1,6 +1,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.iqfight.LoginActivity" >
+    tools:context="com.example.iqfight.RegisterActivity" >
 
     <!-- Login progress -->
 
@@ -69,20 +69,19 @@
                 android:layout_marginTop="16dp"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
-                android:text="@string/action_sign_in_login" />
-
-            <!-- Link to Registration Screen -->
-
-            <TextView
-                android:id="@+id/link_to_register"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="40dip"
-                android:layout_marginTop="40dip"
-                android:gravity="center"
-                android:text="@string/link_to_register"
-                android:textColor="#0b84aa"
-                android:textSize="20sp" />
+                android:text="@string/action_sign_in_register" />
+            
+             <!-- Link to Login Screen -->
+		  <TextView android:id="@+id/link_to_login"
+		  		android:layout_width="fill_parent"
+		  		android:layout_height="wrap_content"
+		  		android:layout_marginTop="40dip"
+		  		android:layout_marginBottom="40dip"
+		  		android:text="@string/link_to_login"
+		  		android:gravity="center"
+		  		android:textSize="20sp"
+		  		android:textColor="#025f7c"/>
+            
         </LinearLayout>
     </ScrollView>
 
