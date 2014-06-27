@@ -1,11 +1,11 @@
-package com.example.iqfight.network.abstracts;
+package com.empters.iqfight.network.abstracts;
 
 import android.util.Log;
 
-import com.example.iqfight.network.REST;
-import com.example.iqfight.network.data.ws.LoginResponse;
-import com.example.iqfight.network.helpters.ApiConnection;
-import com.example.iqfight.network.helpters.JsonParser;
+import com.empters.iqfight.network.REST;
+import com.empters.iqfight.network.data.ws.LoginResponse;
+import com.empters.iqfight.network.helpters.ApiConnection;
+import com.empters.iqfight.network.helpters.JsonParser;
 
 public abstract class LoginListener extends RequestListener {
 

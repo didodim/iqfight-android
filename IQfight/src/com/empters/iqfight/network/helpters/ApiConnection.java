@@ -1,4 +1,4 @@
-package com.example.iqfight.network.helpters;
+package com.empters.iqfight.network.helpters;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -10,13 +10,11 @@ import java.util.Map;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.example.iqfight.network.REST;
-
-import com.example.iqfight.network.abstracts.GamesListener;
-import com.example.iqfight.network.data.ws.GameResponse;
-
-import com.example.iqfight.network.data.ws.LoginResponse;
-import com.example.iqfight.network.data.ws.RegisterResponse;
+import com.empters.iqfight.network.REST;
+import com.empters.iqfight.network.abstracts.GamesListener;
+import com.empters.iqfight.network.data.ws.GameResponse;
+import com.empters.iqfight.network.data.ws.LoginResponse;
+import com.empters.iqfight.network.data.ws.RegisterResponse;
 
 import android.util.Log;
 

@@ -1,6 +1,6 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.iqfight.activities.RegisterActivity" >
+    tools:context="com.empters.iqfight.activities.RegisterActivity" >
 
     <!-- Login progress -->
 

@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.iqfight.activities.LoginActivity"
+            android:name="com.empters.iqfight.activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>
@@ -25,20 +25,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.iqfight.activities.RegisterActivity"
+            android:name="com.empters.iqfight.activities.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName="com.example.iqfight.activities.LoginActivity"
+            android:parentActivityName="com.empters.iqfight.activities.LoginActivity"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.iqfight.LoginActivity" />
         </activity>
         <activity
-    		android:name="com.example.iqfight.activities.GameActivity"
+    		android:name="com.empters.iqfight.activities.GameActivity"
             android:label="@string/title_activity_game" >
         </activity>
         <activity
-    		android:name="com.example.iqfight.activities.ModeActivity"
+    		android:name="com.empters.iqfight.activities.ModeActivity"
             android:label="@string/title_activity_mode" >
         </activity>
     </application>

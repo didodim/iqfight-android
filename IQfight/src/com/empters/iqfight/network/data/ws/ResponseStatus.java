@@ -1,4 +1,4 @@
-package com.example.iqfight.network.data.ws;
+package com.empters.iqfight.network.data.ws;
 
 import java.io.Serializable;
 

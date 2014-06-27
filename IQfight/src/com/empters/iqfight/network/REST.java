@@ -1,4 +1,4 @@
- package com.example.iqfight.network;
+ package com.empters.iqfight.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;

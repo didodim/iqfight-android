@@ -1,13 +1,13 @@
-package com.example.iqfight.activities;
+package com.empters.iqfight.activities;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.empters.iqfight.network.abstracts.RefreshGameListener;
+import com.empters.iqfight.network.data.ws.GameResponse;
+import com.empters.iqfight.network.helpters.NetworkTask;
+import com.empters.iqfight.network.helpters.Player;
 import com.example.iqfight.R;
-import com.example.iqfight.network.abstracts.RefreshGameListener;
-import com.example.iqfight.network.data.ws.GameResponse;
-import com.example.iqfight.network.helpters.NetworkTask;
-import com.example.iqfight.network.helpters.Player;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

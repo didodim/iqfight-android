@@ -1,12 +1,12 @@
-package com.example.iqfight.network.helpters;
+package com.empters.iqfight.network.helpters;
 
 import android.util.Log;
 
-import com.example.iqfight.network.data.ws.GameResponse;
-import com.example.iqfight.network.data.ws.GamesResponse;
-import com.example.iqfight.network.data.ws.LoginResponse;
-import com.example.iqfight.network.data.ws.RegisterResponse;
-import com.example.iqfight.network.data.ws.ResponseStatus;
+import com.empters.iqfight.network.data.ws.GameResponse;
+import com.empters.iqfight.network.data.ws.GamesResponse;
+import com.empters.iqfight.network.data.ws.LoginResponse;
+import com.empters.iqfight.network.data.ws.RegisterResponse;
+import com.empters.iqfight.network.data.ws.ResponseStatus;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

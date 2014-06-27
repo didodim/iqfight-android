@@ -1,22 +1,21 @@
-package com.example.iqfight.activities;
+package com.empters.iqfight.activities;
 
+import com.empters.iqfight.network.data.ws.RegisterResponse;
+import com.empters.iqfight.network.helpters.ApiConnection;
 import com.example.iqfight.R;
-
-import com.example.iqfight.network.abstracts.LoginListener;
-import com.example.iqfight.network.data.ws.LoginResponse;
-import com.example.iqfight.network.helpters.ApiConnection;
-import com.example.iqfight.network.helpters.NetworkTask;
+import com.example.iqfight.R.id;
+import com.example.iqfight.R.layout;
+import com.example.iqfight.R.menu;
+import com.example.iqfight.R.string;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -24,14 +23,15 @@ import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.MenuItem;
+import android.support.v4.app.NavUtils;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
  * well.
  */
-public class LoginActivity extends Activity {
+public class RegisterActivity extends Activity {
 	/**
 	 * A dummy authentication store containing known user names and passwords.
 	 * TODO: remove after connecting to a real authentication system.
@@ -57,105 +57,18 @@ public class LoginActivity extends Activity {
 	private EditText mEmailView;
 	private EditText mPasswordView;
 	private View mLoginFormView;
-	private LinearLayout mLoginFormContainer;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
-	private SharedPreferences settings;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
-		settings = getSharedPreferences("IqFight", Activity.MODE_PRIVATE);
-
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_login);
-		
-		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
-
-		checkLogin();
-
-		
-	}
-
-	private void checkLogin() {
-
-		mLoginFormView = findViewById(R.id.login_form);
-		mLoginFormContainer = (LinearLayout) findViewById(R.id.login_form_cont);
-		mEmail = settings.getString("username", "");
-		mPassword = settings.getString("password", "");
-
-		if (!mEmail.equals("")) {
-
-			LoginListener loginListener = new LoginListener() {
-
-				@Override
-				public void onResponse() {
-					LoginResponse loginResponse = this.getLoginResponse();
-					if (loginResponse.getStatus().equals("ok")) {
-						Log.i("Network", "Successful login");
-						runOnUiThread(new Runnable() {
-
-							@Override
-							public void run() {
-
-								Intent i = new Intent(getApplicationContext(),
-										ModeActivity.class);
-								startActivity(i);
-								finish();
-
-							}
-						});
-					} else {
-						try {
-							Thread.sleep(ApiConnection.MAX_WAIT);
-							checkLogin();
-						} catch (InterruptedException e) {
-
-							e.printStackTrace();
-						}
-					}
-
-				}
-			};
-			loginListener.setUsername(mEmail);
-			loginListener.setPassword(mPassword);
-			new NetworkTask().execute(loginListener);
-		} else {
-			displayActivity();
-		}
-
-	}
-
-	private void displayActivity() {
-		
-		new Handler().postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				mLoginFormView.setBackgroundResource(R.drawable.background1);
-				mLoginFormContainer.setVisibility(View.VISIBLE);
-
-			}
-		}, 3000);
-		
-		TextView registerScreen = (TextView) findViewById(R.id.link_to_register);
-
-		// Listening to register new account link
-		registerScreen.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				// Switching to Register screen
-
-				Intent i = new Intent(getApplicationContext(),
-						RegisterActivity.class);
-				startActivity(i);
-
-			}
-		});
+		setContentView(R.layout.activity_register);
+		setupActionBar();
 
 		// Set up the login form.
-		
+		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
 		mEmailView = (EditText) findViewById(R.id.email);
 		mEmailView.setText(mEmail);
 
@@ -173,6 +86,7 @@ public class LoginActivity extends Activity {
 					}
 				});
 
+		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
 
@@ -184,12 +98,58 @@ public class LoginActivity extends Activity {
 					}
 				});
 
+		TextView loginScreen = (TextView) findViewById(R.id.link_to_login);
+
+		// Listening to Login Screen link
+		loginScreen.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View arg0) {
+				// Closing registration screen
+				// Switching to Login Screen/closing register screen
+
+				Intent i = new Intent(getApplicationContext(),
+						LoginActivity.class);
+				startActivity(i);
+
+			}
+		});
+
+	}
+
+	/**
+	 * Set up the {@link android.app.ActionBar}, if the API is available.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void setupActionBar() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			// Show the Up button in the action bar.
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			// This ID represents the Home or Up button. In the case of this
+			// activity, the Up button is shown. Use NavUtils to allow users
+			// to navigate up one level in the application structure. For
+			// more details, see the Navigation pattern on Android Design:
+			//
+			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+			//
+			// TODO: If Settings has multiple levels, Up should navigate up
+			// that hierarchy.
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.login, menu);
+		getMenuInflater().inflate(R.menu.register, menu);
 		return true;
 	}
 
@@ -258,7 +218,6 @@ public class LoginActivity extends Activity {
 		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
 		// for very easy animations. If available, use these APIs to fade-in
 		// the progress spinner.
-
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			int shortAnimTime = getResources().getInteger(
 					android.R.integer.config_mediumAnimTime);
@@ -271,7 +230,6 @@ public class LoginActivity extends Activity {
 						public void onAnimationEnd(Animator animation) {
 							mLoginStatusView.setVisibility(show ? View.VISIBLE
 									: View.GONE);
-
 						}
 					});
 
@@ -293,14 +251,6 @@ public class LoginActivity extends Activity {
 		}
 	}
 
-	private void saveMailAndPassword() {
-
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("username", mEmail);
-		editor.putString("password", mPassword);
-		editor.commit();
-	}
-
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
@@ -310,18 +260,16 @@ public class LoginActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
 
-			LoginResponse loginResponse = ApiConnection.callLogin(mEmail,
-					mPassword);
-			if (loginResponse == null
-					|| !loginResponse.getStatus().equalsIgnoreCase("ok")) {
-				Log.e("Network", "Not Logged user:" + mEmail);
+			RegisterResponse registerResponse = ApiConnection.callRegister(
+					mEmail, mPassword);
+			if (registerResponse == null
+					|| !registerResponse.getStatus().equalsIgnoreCase("ok")) {
+				Log.e("Network", "Not register user");
 				return false;
-
 			} else {
-				Log.i("Network", "Logged user:" + mEmail);
-				saveMailAndPassword();
+				Log.i("Network", "Registered user:" + mEmail);
 				Intent i = new Intent(getApplicationContext(),
-						ModeActivity.class);
+						LoginActivity.class);
 				startActivity(i);
 				finish();
 			}
@@ -346,7 +294,7 @@ public class LoginActivity extends Activity {
 			if (success) {
 				finish();
 			} else {
-				mEmailView.setError(getString(R.string.error_invalid_email));
+				mEmailView.setError(getString(R.string.error_user_inuse));
 				mEmailView.requestFocus();
 			}
 		}

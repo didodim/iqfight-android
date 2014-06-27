@@ -1,4 +1,4 @@
-package com.example.iqfight.network.helpters;
+package com.empters.iqfight.network.helpters;
 
 public class Player{
 	

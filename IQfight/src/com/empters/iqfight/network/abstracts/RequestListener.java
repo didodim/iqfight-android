@@ -1,4 +1,4 @@
-package com.example.iqfight.network.abstracts;
+package com.empters.iqfight.network.abstracts;
 
 public abstract class RequestListener {
 

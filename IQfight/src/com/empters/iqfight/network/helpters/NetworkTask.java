@@ -1,6 +1,6 @@
-package com.example.iqfight.network.helpters;
+package com.empters.iqfight.network.helpters;
 
-import com.example.iqfight.network.abstracts.RequestListener;
+import com.empters.iqfight.network.abstracts.RequestListener;
 
 import android.os.AsyncTask;
 

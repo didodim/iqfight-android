@@ -1,4 +1,4 @@
-package com.example.iqfight.network;
+package com.empters.iqfight.network;
 
 
 
