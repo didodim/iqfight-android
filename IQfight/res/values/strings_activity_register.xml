@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="title_activity_register">Register</string>
+    <string name="title_activity_register">IQ FIght</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -11,6 +11,7 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_user_inuse">This user is registered!</string>
     <string name="error_field_required">This field is required</string>
     <string name="link_to_login">Already has account! Login here</string>
 

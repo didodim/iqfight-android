@@ -4,5 +4,12 @@
     <string name="app_name">IQfight</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_game">IQ Fight</string>
+    <string name="title_activity_mode">IQ Fight</string>
+    <string name="mode_welcome">Welcome!</string>
+    <string name="new_game_button">Create Game</string>
+    <string name="new_game_hint">Write name here</string>
+    <string name="new_game_t">Created new Game</string>
+    <string name="game_wait_message">Please wait for other players</string>
 
 </resources>
