@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${packageName}.${activityClass}" 
+    android:background="@drawable/background1">
+
+    <TextView
+        android:id="@+id/header_statistics"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/head_statistics"
+        android:textSize="20sp" />
+
+    <GridView
+        android:id="@+id/statisticsView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header_statistics"
+        android:background="@color/background_item"
+        android:gravity="center"
+        android:numColumns="3" >
+    </GridView>
+
+</RelativeLayout>

@@ -107,6 +107,7 @@ public class ModeActivity extends Activity {
 		});
 		newGameName = (EditText) findViewById(R.id.new_game_name);
 		modeView = (ListView) findViewById(R.id.modeView);
+
 		modeView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -161,8 +162,20 @@ public class ModeActivity extends Activity {
 			modeView.setVisibility(View.GONE);
 			newGameView.setVisibility(View.FOCUS_FORWARD);
 			break;
+			
+		case 2:
+			modeView.setVisibility(View.GONE);
+			showStatistics();
+			
 
 		}
+	}
+
+	private void showStatistics() {
+		Intent i = new Intent(getApplicationContext(), StatisticActivity.class);
+		startActivity(i);
+		finish();
+		
 	}
 
 	private void showGames() {

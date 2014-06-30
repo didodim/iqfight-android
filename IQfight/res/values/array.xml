@@ -3,6 +3,7 @@
     <string-array name="modes">
         <item >Join Game</item>
         <item >Create Game</item>
+        <item >Statistics</item>
        
     </string-array>
 </resources>

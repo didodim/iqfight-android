@@ -11,5 +11,7 @@
     <string name="new_game_hint">Write name here</string>
     <string name="new_game_t">Created new Game</string>
     <string name="game_wait_message">Please wait for other players</string>
+    <string name="title_activity_statistic">StatisticActivity</string>
+    <string name="head_statistics">STATISTICS</string>
 
 </resources>

@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:clickable="false"
             android:focusable="false"
+            android:background="@color/background_item"
             android:numColumns="1" >
         </GridView>
         
@@ -88,9 +89,12 @@
         <GridView
             android:id="@+id/answersView"
             android:layout_width="wrap_content"
+            android:gravity="center"
             android:layout_height="wrap_content"
+           
             android:layout_below="@+id/questionImageView"
-            android:numColumns="2" >
+            android:numColumns="2"
+            android:background="@color/background_item" >
         </GridView>
     </RelativeLayout>
 

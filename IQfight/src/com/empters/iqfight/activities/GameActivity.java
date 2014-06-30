@@ -1,37 +1,14 @@
 package com.empters.iqfight.activities;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.empters.iqfight.R;
-import com.empters.iqfight.network.abstracts.OpenGameListener;
-import com.empters.iqfight.network.abstracts.PlayListener;
-import com.empters.iqfight.network.abstracts.QuitGameListener;
-import com.empters.iqfight.network.abstracts.RefreshGameListener;
-import com.empters.iqfight.network.data.ws.AnswerResponse;
-import com.empters.iqfight.network.data.ws.GameResponse;
-import com.empters.iqfight.network.data.ws.PlayResponse;
-import com.empters.iqfight.network.data.ws.QuestionResponse;
-import com.empters.iqfight.network.helpters.ApiConnection;
-import com.empters.iqfight.network.helpters.ImageDownloadTask;
-import com.empters.iqfight.network.helpters.NetworkTask;
-import com.empters.iqfight.network.helpters.Player;
-import com.empters.iqfight.utils.AnswerView;
-import com.empters.iqfight.utils.AnswersAdapter;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +22,24 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.empters.iqfight.R;
+import com.empters.iqfight.network.abstracts.AnswerUserListener;
+import com.empters.iqfight.network.abstracts.OpenGameListener;
+import com.empters.iqfight.network.abstracts.PlayListener;
+import com.empters.iqfight.network.abstracts.QuitGameListener;
+import com.empters.iqfight.network.abstracts.RefreshGameListener;
+import com.empters.iqfight.network.data.ws.AnswerResponse;
+import com.empters.iqfight.network.data.ws.GameResponse;
+import com.empters.iqfight.network.data.ws.PlayResponse;
+import com.empters.iqfight.network.data.ws.QuestionResponse;
+import com.empters.iqfight.network.data.ws.UserResponse;
+import com.empters.iqfight.network.helpters.ApiConnection;
+import com.empters.iqfight.network.helpters.ImageDownloadTask;
+import com.empters.iqfight.network.helpters.NetworkTask;
+import com.empters.iqfight.network.helpters.Player;
+import com.empters.iqfight.utils.AnswerView;
+import com.empters.iqfight.utils.AnswersAdapter;
+
 public class GameActivity extends Activity {
 
 	private String mEmail;
@@ -57,6 +52,10 @@ public class GameActivity extends Activity {
 	private SharedPreferences settings;
 	private GameResponse game;
 	private RefreshGameListener refreshGameListener;
+	private Boolean isBlocked = false;
+	private Boolean isCorrectAnswer = false;
+	
+	private Boolean isAnswered;
 
 	private PlayResponse playResponse;
 
@@ -74,8 +73,9 @@ public class GameActivity extends Activity {
 	ImageView questionImage;
 	TextView waitText;
 	AnswersAdapter<View> answersAdapter;
-
+	int questionNum=-1;
 	List<View> answerViews;
+	List<AnswerView> holders;
 
 	List<Player> players = new ArrayList<Player>();
 
@@ -102,6 +102,54 @@ public class GameActivity extends Activity {
 		playersView = (GridView) findViewById(R.id.playersView);
 		waitText = (TextView) findViewById(R.id.waitview);
 		answersView = (GridView) findViewById(R.id.answersView);
+		answerViews = new ArrayList<View>();
+		holders = new ArrayList<AnswerView>();
+		LayoutInflater mInflater = (LayoutInflater) this
+				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+		answersView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int position,
+					long arg3) {
+				sendAnswerUser(position);
+
+			}
+
+		});
+
+		for (int i = 0; i < 4; i++) {
+			AnswerView holder = new AnswerView();
+
+			View currentView = mInflater
+					.inflate(R.layout.fragment_answer, null);
+
+			holder.setAnswerText((TextView) currentView
+					.findViewById(R.id.answerText));
+			holder.setAnswerView((ImageView) currentView
+					.findViewById(R.id.answerView));
+			currentView.setTag(holder);
+
+			holders.add(holder);
+			answerViews.add(currentView);
+		}
+
+	}
+
+	private void sendAnswerUser(int position) {
+		AnswerResponse answerR = answersResponse.get(position);
+	
+		AnswerUserListener answerUserListener = new AnswerUserListener() {
+
+			@Override
+			public void onResponse() {
+				Log.i("AnswerUser", "" + getAnswerUserResponse().getCorrect());
+				isAnswered = true;
+				isCorrectAnswer = getAnswerUserResponse().getCorrect();
+			}
+		};
+		answerUserListener.setAnswerId(answerR.getId());
+		new NetworkTask().execute(answerUserListener);
 
 	}
 
@@ -166,7 +214,7 @@ public class GameActivity extends Activity {
 											+ playersToStart + " players");
 								}
 
-								createPlayersView();
+								createPlayersView(false);
 
 							}
 						});
@@ -194,19 +242,47 @@ public class GameActivity extends Activity {
 
 	private void generateGame() {
 		mWaitLayout.setVisibility(View.GONE);
-		createPlayersView();
+		createPlayersView(true);
+		
+		if(questionNum!=playResponse.getQuestion().getNumber()){
+			isAnswered=false;
+		}
+		
+		questionNum = playResponse.getQuestion().getNumber();
+		if (isBlocked|| isAnswered) {
+			showExplanation();
+			
+		} else {
+			currentQuestion = playResponse.getQuestion();
 
-		currentQuestion = playResponse.getQuestion();
+			createQuestionView();
 
-		createQuestionView();
-
-		createAnswersView();
+			createAnswersView();
+		}
+	}
+	
+	private void showExplanation(){
+	
+		String answeredUser =playResponse.getAnsweredUser();
+		if(answeredUser.equalsIgnoreCase("nobody") || answeredUser.equalsIgnoreCase("")){
+			questionTextQ.setText("Please wait for question");
+		}else{
+			questionTextQ.setText(answeredUser+" answered correct!");
+		}
+		
+		if(answeredUser.equals(mEmail)){
+			questionTextQ.setText("You answered correct!");
+		}
+		
+		questionTextQ.setVisibility(View.FOCUS_FORWARD);
+		answersView.setVisibility(View.GONE);
+		questionImage.setVisibility(View.GONE);
 	}
 
 	private void createQuestionView() {
 
 		this.setTitle("Question " + currentQuestion.getNumber());
-		Log.i("Remain Time", "" + playResponse.getRemainingTime());
+		
 		if (playResponse.getRemainingTime() > 0) {
 			int time = (playResponse.getRemainingTime() / 5000) + 1;
 
@@ -214,28 +290,25 @@ public class GameActivity extends Activity {
 
 			remainTime.setVisibility(View.FOCUS_FORWARD);
 		} else {
-			remainTime.setVisibility(View.GONE);
+			remainTime.setVisibility(View.FOCUS_FORWARD);
+			remainTime.setText("Remain Time: 0");
+			
 		}
 
 		if (checkStr(currentQuestion.getQuestion())) {
-			Log.i("Question", currentQuestion.getQuestion());
+			
 			questionTextQ.setText(currentQuestion.getQuestion());
 			questionTextQ.setVisibility(View.FOCUS_FORWARD);
 		} else {
 			questionTextQ.setVisibility(View.GONE);
 		}
 
-		// if (checkStr(currentQuestion.getExplanation())) {
-		// Log.i("Question", currentQuestion.getExplanation());
-		// questionTextE.setText(currentQuestion.getExplanation());
-		// questionTextE.setVisibility(View.FOCUS_FORWARD);
-		// }
-
 		if (checkStr(currentQuestion.getPicture())) {
-			Log.i("Question", currentQuestion.getPicture());
+			
 			questionImage.setVisibility(View.FOCUS_FORWARD);
 			new ImageDownloadTask(questionImage).execute(ApiConnection.URL
 					+ currentQuestion.getPicture());
+
 		} else {
 			questionImage.setVisibility(View.GONE);
 		}
@@ -248,6 +321,7 @@ public class GameActivity extends Activity {
 			@Override
 			public void onResponse() {
 				playResponse = this.getPlayResponse();
+				isBlocked = playResponse.getIsBlocked();
 				runOnUiThread(new Runnable() {
 
 					@Override
@@ -256,6 +330,7 @@ public class GameActivity extends Activity {
 						generateGame();
 
 					}
+
 				});
 
 				try {
@@ -300,12 +375,20 @@ public class GameActivity extends Activity {
 		return v;
 	}
 
-	private void createPlayersView() {
-		players = new ArrayList<Player>();
-		for (String playerName : game.getUsers()) {
-			players.add(new Player(playerName, -1));
-		}
+	private void createPlayersView(Boolean isPlay) {
 
+		players = new ArrayList<Player>();
+
+		if (isPlay) {
+			for (UserResponse user : playResponse.getUsers()) {
+
+				players.add(new Player(user.getName(), user.getPoints()));
+			}
+		} else {
+			for (String playerName : game.getUsers()) {
+				players.add(new Player(playerName, -1));
+			}
+		}
 		List<String> playersStr = new ArrayList<String>();
 		int playersLenght = players.size();
 		for (Player player : players) {
@@ -314,68 +397,55 @@ public class GameActivity extends Activity {
 
 		ArrayAdapter<String> playersAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1,
-				playersStr.toArray(new String[playersLenght]));
+				playersStr.toArray(new String[playersLenght])) {
+
+			@Override
+			public boolean isEnabled(int position) {
+
+				return false;
+			}
+
+			@Override
+			public boolean areAllItemsEnabled() {
+				return false;
+			}
+
+		};
 
 		playersView.setAdapter(playersAdapter);
 
 	}
 
 	private void createAnswersView() {
+		answersView.setVisibility(View.FOCUS_FORWARD);
 		currentAnswers = playResponse.getAnswers();
 		if (isNewAnswers()) {
-			answerViews = new ArrayList<View>();
 
-			LayoutInflater mInflater = (LayoutInflater) this
-					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
-			for (AnswerResponse answer : currentAnswers) {
-				View currentView = mInflater.inflate(R.layout.fragment_answer,
-						null);
-				final AnswerView holder = new AnswerView();
-
-				holder.setAnswerText((TextView) currentView
-						.findViewById(R.id.answerText));
-				holder.setAnswerView((ImageView) currentView
-						.findViewById(R.id.answerView));
-				currentView.setTag(holder);
-
+			for (int i = 0; i < currentAnswers.size(); i++) {
+				AnswerResponse answer = currentAnswers.get(i);
+				//
 				if (checkStr(answer.getAnswer())) {
-					holder.getAnswerText().setVisibility(View.FOCUS_FORWARD);
-					holder.getAnswerText().setText(answer.getAnswer());
+					holders.get(i).getAnswerText()
+							.setVisibility(View.FOCUS_FORWARD);
+					holders.get(i).getAnswerText().setText(answer.getAnswer());
 				} else {
-					holder.getAnswerText().setVisibility(View.GONE);
-					holder.getAnswerText().setText("");
+					holders.get(i).getAnswerText().setVisibility(View.GONE);
+					holders.get(i).getAnswerText().setText("");
 				}
 
 				if (checkStr(answer.getPicture())) {
-					holder.getAnswerView().setVisibility(View.FOCUS_FORWARD);
+					holders.get(i).getAnswerView()
+							.setVisibility(View.FOCUS_FORWARD);
+					new ImageDownloadTask(holders.get(i).getAnswerView())
+							.execute(ApiConnection.URL
+									+ answer.getPicture().substring(1));
+					// .execute(ApiConnection.URL+"media/pictures/Q27/1.gif");
 
-					ImageDownloadTask imgDown = new ImageDownloadTask() {
-
-						@Override
-						protected void onPostExecute(final Bitmap result) {
-							runOnUiThread(new Runnable() {
-
-								@Override
-								public void run() {
-
-									holder.getAnswerView().setImageBitmap(
-											result);
-								}
-							});
-						}
-
-					};
-					Log.i("Answers", ApiConnection.URL
-							+ answer.getPicture().substring(1));
-					imgDown.execute(ApiConnection.URL
-							+ answer.getPicture().substring(1));
 				} else {
-					holder.getAnswerView().setVisibility(View.FOCUS_FORWARD);
+					holders.get(i).getAnswerView().setVisibility(View.GONE);
 
 				}
 
-				answerViews.add(currentView);
 			}
 
 			new Handler().postDelayed(new Runnable() {
@@ -385,17 +455,7 @@ public class GameActivity extends Activity {
 					updateAdapter();
 
 				}
-			}, 2000);
-			answersView.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View v, int arg2,
-						long arg3) {
-					Log.i("Players View",
-							"Clicked! on" + ((TextView) v).getText());
-
-				}
-			});
+			}, 1000);
 
 		}
 	}

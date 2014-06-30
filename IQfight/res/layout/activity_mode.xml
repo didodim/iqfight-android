@@ -2,19 +2,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-  
     android:background="@drawable/background1"
     tools:context="${packageName}.${activityClass}" >
 
-    <ListView
+    <ListView 
         android:id="@+id/modeView"
         android:layout_width="wrap_content"
+       
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:entries="@array/modes"
-        android:paddingLeft="15dp"
-        android:paddingTop="80dp" >
+        android:layout_marginTop="80dp"
+        style="@style/ModeView" >
 
+      
+        
     </ListView>
 
     <ListView
@@ -23,7 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:visibility="gone" >
+        android:visibility="gone"
+        style="@style/ModeView" >
     </ListView>
 
     <LinearLayout

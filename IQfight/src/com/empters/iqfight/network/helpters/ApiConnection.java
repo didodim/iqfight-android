@@ -24,7 +24,7 @@ public class ApiConnection {
 
 	public static final String URL = "http://iqfight.empters.com/";
 	public static String newGameName;
-	public static final long REFRESH_TIME = 3000;
+	public static final long REFRESH_TIME = 1000;
 	
 	public static Map<String, String> map = new HashMap<String, String>();
 	

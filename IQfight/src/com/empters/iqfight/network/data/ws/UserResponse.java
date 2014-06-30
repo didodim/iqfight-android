@@ -14,7 +14,7 @@ public class UserResponse extends ResponseStatus{
 	private String name;
 	
 	@SerializedName("points")
-	private String points;
+	private int points;
 
 	public String getName() {
 		return name;
@@ -24,11 +24,11 @@ public class UserResponse extends ResponseStatus{
 		this.name = name;
 	}
 
-	public String getPoints() {
+	public int getPoints() {
 		return points;
 	}
 
-	public void setPoints(String points) {
+	public void setPoints(int points) {
 		this.points = points;
 	}
 }

@@ -9,11 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/background1"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:background="@drawable/background1"
-         >
+        android:visibility="gone" >
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
@@ -35,9 +34,10 @@
 
     <ScrollView
         android:id="@+id/login_form"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background1" >
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/background1"
+        android:fillViewport="true" >
 
         <LinearLayout
             style="@style/LoginFormContainer"
@@ -72,17 +72,21 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:text="@string/action_sign_in_register" />
-            
-             <!-- Link to Login Screen -->
-		  <TextView android:id="@+id/link_to_login"
-		  		android:layout_width="fill_parent"
-		  		android:layout_height="wrap_content"
-		  		android:layout_marginTop="40dip"
-		  		android:layout_marginBottom="40dip"
-		  		android:text="@string/link_to_login"
-		  		android:gravity="center"
-		  		android:textSize="20sp"		  		/>
-            
+
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/link_to_login"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/background_item"
+                android:gravity="center"
+                android:text="@string/link_to_login"
+                android:textSize="20sp" />
         </LinearLayout>
     </ScrollView>
 

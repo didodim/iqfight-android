@@ -2,12 +2,14 @@ package com.empters.iqfight.network.helpters;
 
 import android.util.Log;
 
+import com.empters.iqfight.network.data.ws.AnswerUserResponse;
 import com.empters.iqfight.network.data.ws.GameResponse;
 import com.empters.iqfight.network.data.ws.GamesResponse;
 import com.empters.iqfight.network.data.ws.LoginResponse;
 import com.empters.iqfight.network.data.ws.PlayResponse;
 import com.empters.iqfight.network.data.ws.RegisterResponse;
 import com.empters.iqfight.network.data.ws.ResponseStatus;
+import com.empters.iqfight.network.data.ws.StatisticsResponse;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -71,6 +73,20 @@ public class JsonParser {
 	public GameResponse getNewGame(String json) {
 		GameResponse fromJson = gsonParser.fromJson(json,
 				GameResponse.class);
+		return fromJson;
+	}
+	
+	public StatisticsResponse getStatisticsResponse(String json) {
+		
+		StatisticsResponse fromJson = gsonParser.fromJson(json,
+				StatisticsResponse.class);
+		return fromJson;
+	}
+	
+public AnswerUserResponse getAnswerUserResponse(String json) {
+		
+	AnswerUserResponse fromJson = gsonParser.fromJson(json,
+				AnswerUserResponse.class);
 		return fromJson;
 	}
 

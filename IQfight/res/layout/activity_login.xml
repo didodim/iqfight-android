@@ -9,9 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/background1"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@drawable/background1"
         android:visibility="gone" >
 
         <ProgressBar
@@ -34,10 +34,11 @@
 
     <ScrollView
         android:id="@+id/login_form"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:animateLayoutChanges="true"
         android:background="@drawable/title"
+        android:fillViewport="true"
         android:visibility="visible" >
 
         <LinearLayout
@@ -79,12 +80,17 @@
 
             <!-- Link to Registration Screen -->
 
+            <FrameLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1" >
+            </FrameLayout>
+
             <TextView
                 android:id="@+id/link_to_register"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dip"
-                android:layout_marginTop="40dip"
+                android:background="@color/background_item"
                 android:gravity="center"
                 android:text="@string/link_to_register"
                 android:textSize="20sp" />

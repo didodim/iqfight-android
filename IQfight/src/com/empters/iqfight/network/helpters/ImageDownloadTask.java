@@ -12,6 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
+
+	
+
 	ImageView bmImage;
 
 	public ImageDownloadTask(ImageView bmImage) {
@@ -33,11 +36,18 @@ public class ImageDownloadTask extends AsyncTask<String, Void, Bitmap> {
 			Log.e("Error", e.getMessage());
 			e.printStackTrace();
 		}
-		if (bmImage != null) {
-			bmImage.setImageBitmap(mIcon11);
-		}
+		
 
 		return mIcon11;
+	}
+	
+	@Override
+	protected void onPostExecute(Bitmap result) {
+		if (bmImage != null) {
+			bmImage.setImageBitmap(result);
+			
+		}
+		super.onPostExecute(result);
 	}
 
 }
