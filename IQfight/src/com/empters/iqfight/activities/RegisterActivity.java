@@ -2,11 +2,7 @@ package com.empters.iqfight.activities;
 
 import com.empters.iqfight.network.data.ws.RegisterResponse;
 import com.empters.iqfight.network.helpters.ApiConnection;
-import com.example.iqfight.R;
-import com.example.iqfight.R.id;
-import com.example.iqfight.R.layout;
-import com.example.iqfight.R.menu;
-import com.example.iqfight.R.string;
+import com.empters.iqfight.R;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -37,12 +33,12 @@ public class RegisterActivity extends Activity {
 	 * TODO: remove after connecting to a real authentication system.
 	 */
 	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world" };
+			"foo@empters.com:hello", "bar@empters.com:world" };
 
 	/**
 	 * The default email to populate the email field with.
 	 */
-	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
+	public static final String EXTRA_EMAIL = "com.empters.android.authenticatordemo.extra.EMAIL";
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.

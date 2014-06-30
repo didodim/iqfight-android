@@ -1,6 +1,6 @@
 package com.empters.iqfight.network.data.ws;
 
-import java.io.Serializable;
+
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
@@ -21,8 +21,16 @@ public class GameResponse extends ResponseStatus {
 	@SerializedName(value="users")
 	List<String> users;
 	
+	public List<String> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<String> users) {
+		this.users = users;
+	}
+
 	@SerializedName("players_to_start")
-	private int players_to_start;
+	private int playersToStart;
 	
 	
 
@@ -43,12 +51,12 @@ public class GameResponse extends ResponseStatus {
 		this.name = name;
 	}
 
-	public int getPlayers_to_start() {
-		return players_to_start;
+	public int getPlayersToStart() {
+		return playersToStart;
 	}
 
-	public void setPlayers_to_start(int players_to_start) {
-		this.players_to_start = players_to_start;
+	public void setPlayersToStart(int playersToStart) {
+		this.playersToStart = playersToStart;
 	}
 
 

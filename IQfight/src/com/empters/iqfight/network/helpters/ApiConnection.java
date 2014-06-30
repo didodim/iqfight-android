@@ -1,7 +1,6 @@
 package com.empters.iqfight.network.helpters;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +10,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.empters.iqfight.network.REST;
-import com.empters.iqfight.network.abstracts.GamesListener;
-import com.empters.iqfight.network.data.ws.GameResponse;
 import com.empters.iqfight.network.data.ws.LoginResponse;
 import com.empters.iqfight.network.data.ws.RegisterResponse;
 
@@ -24,8 +21,10 @@ public class ApiConnection {
 
 	public static final int MAX_WAIT=3000;
 
+
 	public static final String URL = "http://iqfight.empters.com/";
 	public static String newGameName;
+	public static final long REFRESH_TIME = 3000;
 	
 	public static Map<String, String> map = new HashMap<String, String>();
 	

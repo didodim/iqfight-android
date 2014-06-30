@@ -4,7 +4,7 @@ import com.empters.iqfight.network.abstracts.LoginListener;
 import com.empters.iqfight.network.data.ws.LoginResponse;
 import com.empters.iqfight.network.helpters.ApiConnection;
 import com.empters.iqfight.network.helpters.NetworkTask;
-import com.example.iqfight.R;
+import com.empters.iqfight.R;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -36,12 +37,12 @@ public class LoginActivity extends Activity {
 	 * TODO: remove after connecting to a real authentication system.
 	 */
 	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world" };
+			"foo@empters.com:hello", "bar@empters.com:world" };
 
 	/**
 	 * The default email to populate the email field with.
 	 */
-	public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
+	public static final String EXTRA_EMAIL = "com.empters.android.authenticatordemo.extra.EMAIL";
 
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
@@ -61,6 +62,8 @@ public class LoginActivity extends Activity {
 	private TextView mLoginStatusMessageView;
 	private SharedPreferences settings;
 
+	private int tryConnect = 3;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -69,18 +72,18 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_login);
-		
-		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
 
+		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+		mLoginFormView = findViewById(R.id.login_form);
+		mLoginFormContainer = (LinearLayout) findViewById(R.id.login_form_cont);
 		checkLogin();
 
-		
 	}
 
 	private void checkLogin() {
 
-		mLoginFormView = findViewById(R.id.login_form);
-		mLoginFormContainer = (LinearLayout) findViewById(R.id.login_form_cont);
 		mEmail = settings.getString("username", "");
 		mPassword = settings.getString("password", "");
 
@@ -106,12 +109,18 @@ public class LoginActivity extends Activity {
 							}
 						});
 					} else {
-						try {
-							Thread.sleep(ApiConnection.MAX_WAIT);
-							checkLogin();
-						} catch (InterruptedException e) {
+						if (tryConnect > 0) {
+							tryConnect--;
+							try {
+								Thread.sleep(ApiConnection.MAX_WAIT);
+								checkLogin();
+							} catch (InterruptedException e) {
 
-							e.printStackTrace();
+								e.printStackTrace();
+							}
+						} else {
+							clearSettings();
+							checkLogin();
 						}
 					}
 
@@ -126,8 +135,18 @@ public class LoginActivity extends Activity {
 
 	}
 
+	private void clearSettings() {
+		SharedPreferences.Editor editor = settings.edit();
+
+		editor.remove("username");
+		editor.remove("password");
+
+		editor.commit();
+
+	}
+
 	private void displayActivity() {
-		
+
 		new Handler().postDelayed(new Runnable() {
 
 			@Override
@@ -137,7 +156,7 @@ public class LoginActivity extends Activity {
 
 			}
 		}, 3000);
-		
+
 		TextView registerScreen = (TextView) findViewById(R.id.link_to_register);
 
 		// Listening to register new account link
@@ -154,7 +173,7 @@ public class LoginActivity extends Activity {
 		});
 
 		// Set up the login form.
-		
+
 		mEmailView = (EditText) findViewById(R.id.email);
 		mEmailView.setText(mEmail);
 

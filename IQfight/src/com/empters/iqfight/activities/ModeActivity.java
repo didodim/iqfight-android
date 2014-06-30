@@ -8,7 +8,7 @@ import com.empters.iqfight.network.abstracts.NewGameListener;
 import com.empters.iqfight.network.data.ws.GameResponse;
 import com.empters.iqfight.network.data.ws.GamesResponse;
 import com.empters.iqfight.network.helpters.NetworkTask;
-import com.example.iqfight.R;
+import com.empters.iqfight.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -46,8 +47,11 @@ public class ModeActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+
 		setContentView(R.layout.activity_mode);
 		settings = getSharedPreferences("IqFight", Activity.MODE_PRIVATE);
+		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		createViews();
 
 	}

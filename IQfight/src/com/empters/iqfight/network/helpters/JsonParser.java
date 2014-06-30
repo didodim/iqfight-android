@@ -5,6 +5,7 @@ import android.util.Log;
 import com.empters.iqfight.network.data.ws.GameResponse;
 import com.empters.iqfight.network.data.ws.GamesResponse;
 import com.empters.iqfight.network.data.ws.LoginResponse;
+import com.empters.iqfight.network.data.ws.PlayResponse;
 import com.empters.iqfight.network.data.ws.RegisterResponse;
 import com.empters.iqfight.network.data.ws.ResponseStatus;
 import com.google.gson.FieldNamingPolicy;
@@ -40,6 +41,12 @@ public class JsonParser {
 	public ResponseStatus getResponseStatus(String json) {
 		ResponseStatus fromJson = gsonParser.fromJson(json,
 				ResponseStatus.class);
+		return fromJson;
+	}
+	
+	public PlayResponse getPlayResponse(String json) {
+		PlayResponse fromJson = gsonParser.fromJson(json,
+				PlayResponse.class);
 		return fromJson;
 	}
 	

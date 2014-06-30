@@ -3,10 +3,10 @@ package com.empters.iqfight.network.helpters;
 public class Player{
 	
 	private String name;
-	private String points;
+	private int points;
 	
 	
-	public Player(String name, String points){
+	public Player(String name, int points){
 		this.setName(name);
 		this.setPoints(points);
 	}
@@ -22,18 +22,23 @@ public class Player{
 	}
 
 
-	public String getPoints() {
+	
+	
+	public String getNameAndPoints(){
+		if(points<0){
+			return getName();
+		}
+		return getName()+":  "+getPoints();
+	}
+
+
+	public int getPoints() {
 		return points;
 	}
 
 
-	public void setPoints(String points) {
+	public void setPoints(int points) {
 		this.points = points;
-	}
-	
-	
-	public String getNameAndPoints(){
-		return getName()+":  "+getPoints();
 	}
 
 }

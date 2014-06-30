@@ -1,19 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gamelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background1"
     tools:context="${packageName}.${activityClass}" >
 
-    
-      <LinearLayout
+    <LinearLayout
         android:id="@+id/wait_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/background1"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@drawable/background1"
         android:visibility="visible" >
 
         <ProgressBar
@@ -32,6 +32,66 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
     
-   
+    
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible" >
+
+        <GridView
+            android:id="@+id/playersView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:numColumns="1" >
+        </GridView>
+        
+        <TextView
+            android:id="@+id/remainTime"
+            android:gravity="right"
+            android:padding="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/playersView"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:visibility="gone" />
+        
+         <TextView
+            android:id="@+id/questionText"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/remainTime"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:visibility="gone"
+          />
+
+       
+
+         <ImageView
+            android:id="@+id/questionImageView"
+              android:gravity="center"
+            android:padding="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/questionText"
+       
+            android:contentDescription="KUR KUR"
+            android:visibility="gone" >
+           
+            
+        </ImageView>
+
+        <GridView
+            android:id="@+id/answersView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/questionImageView"
+            android:numColumns="2" >
+        </GridView>
+    </RelativeLayout>
 
 </RelativeLayout>
